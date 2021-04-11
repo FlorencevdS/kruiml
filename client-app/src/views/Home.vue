@@ -1,18 +1,58 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <b-container>
+      <b-row class="row-avatar">
+        <b-col cols="4">
+          <b-avatar size="6rem" :src="recipes.cook.image"></b-avatar>
+          <span class="span-name">{{ recipes.cook.name }}</span>
+        </b-col>
+        <b-col>
+          <b-button variant="outline-secondary" class="float-right"
+            >Add recipe</b-button
+          >
+        </b-col>
+      </b-row>
+      <b-row cols="3">
+        <b-col v-for="(recipe, index) in recipes.recipes" :key="index"
+          ><RecipeCard :recipe="recipe"
+        /></b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import RecipeCard from '@/components/RecipeCard';
 
 export default {
-  name: "Home",
   components: {
-    HelloWorld,
+    RecipeCard,
+  },
+  props: {
+    recipes: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>
+
+<style>
+.home {
+  padding-top: 2rem;
+}
+
+.col {
+  padding-top: 2rem;
+}
+
+.row-avatar {
+  padding-left: 15px;
+}
+
+.span-name {
+  padding-left: 2rem;
+  align-self: center;
+  font-size: 20px;
+}
+</style>
