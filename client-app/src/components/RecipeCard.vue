@@ -10,7 +10,7 @@
       <template #header>
         <h6 class="mb-0">
           <b-link
-            :to="{ name: 'RecipeInformation', params: { recipe: recipe.id } }"
+            :to="{ name: 'RecipeInformation', params: { recipeId: recipe.id } }"
             class="stretched-link"
             >{{ recipe.title }}</b-link
           >

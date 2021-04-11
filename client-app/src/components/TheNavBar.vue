@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="light" variant="light">
-      <b-navbar-brand href="#">Kruiml</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'Home' }">Kruiml</b-navbar-brand>
 
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->

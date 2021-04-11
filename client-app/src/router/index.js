@@ -23,6 +23,15 @@ const routes = [
     path: '/recipeInformation',
     name: 'RecipeInformation',
     component: RecipeInformation,
+    props: true,
+    beforeEnter(routeTo, routeFrom, next) {
+      store
+        .dispatch('recipe/fetchRecipe', routeTo.params.recipeId)
+        .then((recipe) => {
+          routeTo.params.recipe = recipe;
+          next();
+        });
+    },
   },
 ];
 
