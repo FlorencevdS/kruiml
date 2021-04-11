@@ -6,13 +6,38 @@
           ><b-img :src="recipe.image" fluid alt="Responsive image"></b-img
         ></b-col>
         <b-col
-          ><h1 class="h1-title">{{ recipe.title }}</h1>
+          ><h1>{{ recipe.title }}</h1>
+          <small
+            >{{ recipe.likes }} likes | {{ recipe.prepTime }} minutes |
+            {{ recipe.serves }} persons | {{ recipe.kcal }} kcal
+          </small>
           <p>{{ recipe.description }}</p></b-col
         >
       </b-row>
       <b-row>
-        <b-col><h4>Ingredients</h4></b-col>
-        <b-col><h4>Method</h4></b-col>
+        <b-col
+          ><h4>Ingredients</h4>
+          <hr />
+          <b-form-group>
+            <b-form-checkbox
+              v-for="(ingredient, index) in recipe.ingredients"
+              :key="index"
+              >{{ ingredient.quantity }} {{ ingredient.name }}</b-form-checkbox
+            >
+          </b-form-group></b-col
+        >
+        <b-col
+          ><h4>Method</h4>
+
+          <hr />
+          <b-form-group>
+            <b-form-checkbox
+              v-for="(step, index) in recipe.method"
+              :key="index"
+              >{{ step }}</b-form-checkbox
+            >
+          </b-form-group></b-col
+        >
       </b-row>
     </b-container>
   </div>
@@ -30,7 +55,7 @@ export default {
 </script>
 
 <style>
-.h1-title {
-  padding-bottom: 2rem !important;
+p {
+  margin-top: 2rem !important;
 }
 </style>
