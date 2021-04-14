@@ -29,8 +29,20 @@ const routes = [
         .dispatch('recipe/fetchRecipe', routeTo.params.recipeId)
         .then((recipe) => {
           routeTo.params.recipe = recipe;
+          routeTo.params.state = 'Information';
           next();
         });
+    },
+  },
+  {
+    path: '/addRecipe',
+    name: 'addRecipe',
+    component: RecipeInformation,
+    props: true,
+    beforeEnter(routeTo, routeFrom, next) {
+      routeTo.params.recipe = {};
+      routeTo.params.state = 'Edit';
+      next();
     },
   },
 ];

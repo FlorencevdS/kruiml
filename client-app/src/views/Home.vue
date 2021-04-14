@@ -7,7 +7,10 @@
           <span class="span-name">{{ recipes.cook.name }}</span>
         </b-col>
         <b-col>
-          <b-button variant="outline-secondary" class="float-right"
+          <b-button
+            variant="outline-secondary"
+            class="float-right"
+            :to="{ name: 'addRecipe' }"
             >Add recipe</b-button
           >
         </b-col>
