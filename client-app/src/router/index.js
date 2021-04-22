@@ -40,7 +40,17 @@ const routes = [
     component: RecipeInformation,
     props: true,
     beforeEnter(routeTo, routeFrom, next) {
-      routeTo.params.recipe = {};
+      routeTo.params.recipe = {
+        image: '',
+        title: '',
+        description: '',
+        likes: '',
+        prepTime: '',
+        serves: '',
+        kcal: '',
+        ingredients: [],
+        method: [],
+      };
       routeTo.params.state = 'Edit';
       next();
     },

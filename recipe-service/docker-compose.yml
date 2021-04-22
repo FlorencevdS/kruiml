@@ -11,20 +11,22 @@ services:
          environment:
              POSTGRES_USER: test
              POSTGRES_PASSWORD: test
-             POSTGRES_DB: "recipedb"
+             POSTGRES_DB: recipedb
          ports:
             - 5432:5432
          volumes:
            - pgdata:/var/lib/postgresql/data
+           - ./Repository/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
          networks:
             - recipe-service-dev
     recipe-service:
         image: recipeservice:latest
+        ports:
+            - 8081:443
+            - 8082:80
         build:
             context: .
             dockerfile: recipe-service/Dockerfile
-        ports:
-            - 8000:80
         depends_on:
             - "recipe-database"
         networks:
