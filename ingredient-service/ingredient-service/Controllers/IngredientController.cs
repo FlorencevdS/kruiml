@@ -1,75 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Logic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ingredient_service.Controllers
 {
-    public class IngredientController : Controller
-    { 
-        public ActionResult Index()
+    [Route("api/[controller]")]
+    [ApiController]
+    public class IngredientController : ControllerBase
+    {
+        private readonly IngredientLogic _ingredientLogic;
+        public IngredientController (IngredientLogic ingredientLogic)
         {
-            return View();
+            _ingredientLogic = ingredientLogic;
         }
 
-        public ActionResult Details(int id)
+        [HttpGet]
+        public IActionResult Get()
         {
-            return View();
+            var ingredients = _ingredientLogic.GetAllIngredients();
+            return new OkObjectResult(ingredients);
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -11,15 +11,13 @@ services:
          ports:
             - 5432:5432
          volumes:
-           - pgdata:/var/lib/postgresql/data
+           - pgdataRecipe:/var/lib/postgresql/data
            - ./recipe-service/Repository/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     recipe-service:
         image: recipeservice:latest
         ports:
             - 8081:443
             - 8082:80
-        expose:
-            - 80
         build:
             context: recipe-service
             dockerfile: recipe-service/Dockerfile
@@ -27,6 +25,31 @@ services:
             - "recipe-database"
         environment:
             DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
+    ingredient-database:
+         image: postgres:latest
+         restart: always
+         environment:
+             POSTGRES_USER: test
+             POSTGRES_PASSWORD: test
+             POSTGRES_DB: ingredientdb
+         ports:
+            - 5433:5432
+         volumes:
+           - pgdataIngredient:/var/lib/postgresql/data
+           - ./ingredient-service/Repository/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ingredient-service:
+        image: ingredientservice:latest
+        ports:
+            - 8083:443
+            - 8084:80
+        build:
+            context: ingredient-service
+            dockerfile: ingredient-service/Dockerfile
+        depends_on:
+            - "ingredient-database"
+        environment:
+            DB_CONNECTION_STRING: "host=ingredient-database;port=5433;database=ingredientdb;username=test;password=test"
 
 volumes:
-    pgdata:
+    pgdataRecipe:
+    pgdataIngredient:

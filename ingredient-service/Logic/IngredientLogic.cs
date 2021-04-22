@@ -2,7 +2,11 @@
 
 namespace Logic
 {
-    public class Class1
+    public class IngredientLogic
     {
+        public object GetAllIngredients()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
