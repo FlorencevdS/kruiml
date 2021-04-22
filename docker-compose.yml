@@ -1,9 +1,5 @@
 version: '3.4'
 
-networks:
-    recipe-service-dev:
-        driver: bridge
-
 services:
     recipe-database:
          image: postgres:latest
@@ -16,21 +12,19 @@ services:
             - 5432:5432
          volumes:
            - pgdata:/var/lib/postgresql/data
-           - ./Repository/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-         networks:
-            - recipe-service-dev
+           - ./recipe-service/Repository/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     recipe-service:
         image: recipeservice:latest
         ports:
             - 8081:443
             - 8082:80
+        expose:
+            - 80
         build:
-            context: .
+            context: recipe-service
             dockerfile: recipe-service/Dockerfile
         depends_on:
             - "recipe-database"
-        networks:
-            - recipe-service-dev
         environment:
             DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
 
