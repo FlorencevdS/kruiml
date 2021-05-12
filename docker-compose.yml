@@ -9,47 +9,33 @@ services:
              POSTGRES_PASSWORD: test
              POSTGRES_DB: recipedb
          ports:
-            - 5432:5432
+            - 5435:5432
          volumes:
-           - pgdataRecipe:/var/lib/postgresql/data
-           - ./recipe-service/Repository/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    recipe-service:
-        image: recipeservice:latest
-        ports:
-            - 8081:443
-            - 8082:80
-        build:
-            context: recipe-service
-            dockerfile: recipe-service/Dockerfile
-        depends_on:
-            - "recipe-database"
-        environment:
-            DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
-    ingredient-database:
-         image: postgres:latest
-         restart: always
-         environment:
-             POSTGRES_USER: test
-             POSTGRES_PASSWORD: test
-             POSTGRES_DB: ingredientdb
-         ports:
-            - 5433:5432
-         volumes:
-           - pgdataIngredient:/var/lib/postgresql/data
-           - ./ingredient-service/Repository/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ingredient-service:
-        image: ingredientservice:latest
+           - dataRecipe:/var/lib/postgresql/data
+    recipe-write-service:
+        image: recipewriteservice:latest
         ports:
             - 8083:443
             - 8084:80
         build:
-            context: ingredient-service
-            dockerfile: ingredient-service/Dockerfile
+            context: recipe-write-service
+            dockerfile: recipe-write-service/Dockerfile
         depends_on:
-            - "ingredient-database"
+            - "recipe-database"
         environment:
-            DB_CONNECTION_STRING: "host=ingredient-database;port=5433;database=ingredientdb;username=test;password=test"
-
+            DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
+    recipe-read-service:
+        image: recipereadservice:latest
+        ports:
+            - 8081:443
+            - 8082:80
+        build:
+            context: recipe-read-service
+            dockerfile: recipe-read-service/Dockerfile
+        depends_on:
+            - "recipe-database"
+        environment:
+            DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
+    
 volumes:
-    pgdataRecipe:
-    pgdataIngredient:
+    dataRecipe:

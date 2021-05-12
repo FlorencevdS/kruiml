@@ -6,7 +6,7 @@
     <ProjectGuid>9725d405-8ac9-4b8c-87d2-9a739289f597</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>recipe-service</DockerServiceName>
+    <DockerServiceName>recipe-read-service</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
