@@ -17,7 +17,7 @@
       </b-row>
       <b-row cols="3">
         <b-col v-for="(recipe, index) in recipes.recipes" :key="index"
-          ><RecipeCard :recipe="recipe"
+          ><RecipeCard :recipe="recipe" :recipeId="recipe.recipeId"
         /></b-col>
       </b-row>
     </b-container>

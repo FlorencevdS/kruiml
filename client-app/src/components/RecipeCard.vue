@@ -3,14 +3,17 @@
     <b-card
       no-body
       style="max-width: 30rem"
-      :img-src="recipe.image"
+      :img-src="recipe.imageUrl"
       :img-alt="recipe.title"
       img-top
     >
       <template #header>
         <h6 class="mb-0">
           <b-link
-            :to="{ name: 'RecipeInformation', params: { recipeId: recipe.id } }"
+            :to="{
+              name: 'RecipeInformation',
+              params: { recipeId: recipe.recipeId },
+            }"
             class="stretched-link"
             >{{ recipe.title }}</b-link
           >

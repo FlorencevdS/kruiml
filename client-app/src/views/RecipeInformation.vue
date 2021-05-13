@@ -6,12 +6,12 @@
           <b-img v-if="previewUrl" :src="previewUrl" fluid></b-img>
           <b-form-file
             v-if="state == 'Edit'"
-            v-model="dataRecipe.image"
+            v-model="dataRecipe.imageUrl"
             placeholder="Choose an image for your recipe..."
             accept="image/*"
             @change="previewFile"
           ></b-form-file>
-          <b-img v-else :src="recipe.image" fluid></b-img>
+          <b-img v-else :src="recipe.imageUrl" fluid></b-img>
         </b-col>
         <b-col
           ><h1 v-if="state == 'Information'">{{ recipe.title }}</h1>
@@ -36,8 +36,9 @@
             <b-row>
               <b-col sm="2"
                 ><b-form-input
-                  v-model="dataRecipe.prepTime"
+                  v-model.number="dataRecipe.prepTime"
                   size="sm"
+                  type="number"
                 ></b-form-input
               ></b-col>
               <b-col sm="8"><label>minutes</label></b-col>
@@ -45,8 +46,9 @@
             <b-row>
               <b-col sm="2"
                 ><b-form-input
-                  v-model="dataRecipe.serves"
+                  v-model.number="dataRecipe.serves"
                   size="sm"
+                  type="number"
                 ></b-form-input
               ></b-col>
               <b-col sm="8"><label>persons</label></b-col>
@@ -54,8 +56,9 @@
             <b-row>
               <b-col sm="2"
                 ><b-form-input
-                  v-model="dataRecipe.kcal"
+                  v-model.number="dataRecipe.kcal"
                   size="sm"
+                  type="number"
                 ></b-form-input
               ></b-col>
               <b-col sm="8"><label>kcal</label></b-col>
@@ -76,25 +79,35 @@
           <hr />
           <b-form-group>
             <b-form-checkbox
-              v-for="(ingredient, index) in recipe.ingredients"
+              v-for="(ingredient, index) in recipe.recipeIngredients"
               :key="index"
-              >{{ ingredient.quantity }} {{ ingredient.name }}</b-form-checkbox
+              >{{ ingredient.amount }} {{ ingredient.unit }}
+              {{ ingredient.ingredient.name }}</b-form-checkbox
             >
           </b-form-group>
           <div v-if="state == 'Edit'">
             <b-container fluid class="no-padding">
               <b-row>
-                <b-col sm="3"
+                <b-col sm="2" style="padding-right:5px"
                   ><b-form-input
                     size="sm"
-                    v-model="ingredient.quantity"
-                    placeholder="Quantity"
+                    v-model.number="ingredient.amount"
+                    placeholder="Amount"
+                    type="number"
+                    step="0.5"
                   ></b-form-input
                 ></b-col>
-                <b-col sm="9"
+                <b-col sm="2" style="padding-right:5px"
                   ><b-form-input
                     size="sm"
-                    v-model="ingredient.name"
+                    v-model="ingredient.unit"
+                    placeholder="Unit"
+                  ></b-form-input
+                ></b-col>
+                <b-col sm="8"
+                  ><b-form-input
+                    size="sm"
+                    v-model="ingredient.ingredient.name"
                     placeholder="Name"
                   ></b-form-input
                 ></b-col>
@@ -109,9 +122,9 @@
           <hr />
           <b-form-group>
             <b-form-checkbox
-              v-for="(step, index) in recipe.method"
+              v-for="(step, index) in recipe.directions"
               :key="index"
-              >{{ step }}</b-form-checkbox
+              >{{ step.description }}</b-form-checkbox
             >
           </b-form-group>
           <div v-if="state == 'Edit'">
@@ -119,7 +132,7 @@
               <b-row>
                 <b-col sm="12"
                   ><b-form-textarea
-                    v-model="method"
+                    v-model="description"
                     placeholder="Add method step"
                   ></b-form-textarea
                 ></b-col>
@@ -142,9 +155,9 @@ export default {
   data() {
     return {
       dataRecipe: { ...this.recipe },
-      previewUrl: null,
-      ingredient: { quantity: '', name: '' },
-      method: '',
+      previewUrl: '',
+      ingredient: { amount: null, unit: '', ingredient: { name: '' } },
+      description: '',
     };
   },
   methods: {
@@ -153,14 +166,23 @@ export default {
       this.previewUrl = URL.createObjectURL(file);
     },
     addIngredient: function() {
-      this.dataRecipe.ingredients.push(this.ingredient);
-      this.ingredient = { quantity: '', name: '' };
+      this.dataRecipe.recipeIngredients.push(this.ingredient);
+      this.ingredient = { amount: null, unit: '', ingredient: { name: '' } };
     },
     addMethodStep: function() {
-      this.dataRecipe.method.push(this.method);
-      this.method = '';
+      this.dataRecipe.directions.push({ description: this.description });
+      this.description = '';
     },
-    addRecipe: function() {},
+    addRecipe: function() {
+      this.$store
+        .dispatch('recipe/createRecipe', this.dataRecipe)
+        .then((response) => {
+          this.$router.push({
+            name: 'RecipeInformation',
+            params: { recipeId: response.recipeId },
+          });
+        });
+    },
   },
 };
 </script>

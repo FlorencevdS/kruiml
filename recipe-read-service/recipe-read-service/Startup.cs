@@ -32,6 +32,15 @@ namespace recipe_read_service
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "recipe_read_service", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyAllowSpecificOrigins", builder =>
+                {
+                    builder.WithOrigins("http://localhost:8085").AllowAnyHeader().AllowAnyMethod();
+
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +56,8 @@ namespace recipe_read_service
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyAllowSpecificOrigins");
 
             app.UseAuthorization();
 

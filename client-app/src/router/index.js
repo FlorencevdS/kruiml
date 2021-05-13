@@ -20,7 +20,7 @@ const routes = [
     },
   },
   {
-    path: '/recipeInformation',
+    path: '/recipeInformation/:recipeId',
     name: 'RecipeInformation',
     component: RecipeInformation,
     props: true,
@@ -41,15 +41,15 @@ const routes = [
     props: true,
     beforeEnter(routeTo, routeFrom, next) {
       routeTo.params.recipe = {
-        image: '',
+        imageUrl: null,
         title: '',
         description: '',
-        likes: '',
-        prepTime: '',
-        serves: '',
-        kcal: '',
-        ingredients: [],
-        method: [],
+        likes: null,
+        prepTime: null,
+        serves: null,
+        kcal: null,
+        recipeIngredients: [],
+        directions: [],
       };
       routeTo.params.state = 'Edit';
       next();
