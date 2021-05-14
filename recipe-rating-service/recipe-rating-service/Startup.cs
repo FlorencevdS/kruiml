@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 using Repository.Contexts;
 using System;
 
-namespace recipe_read_service
+namespace recipe_rating_service
 {
     public class Startup
     {
@@ -23,14 +23,15 @@ namespace recipe_read_service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<RecipeContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
+            services.AddDbContext<RatingContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
 
-            services.AddScoped<RecipeLogic>();
+            services.AddScoped<RatingLogic>();
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "recipe_read_service", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "recipe_rating_service", Version = "v1" });
             });
 
             services.AddCors(options =>
@@ -50,7 +51,7 @@ namespace recipe_read_service
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "recipe_read_service v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "recipe_rating_service v1"));
             }
 
             app.UseHttpsRedirection();

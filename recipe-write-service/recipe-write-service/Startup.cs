@@ -38,7 +38,7 @@ namespace recipe_write_service
             {
                 options.AddPolicy(name: "MyAllowSpecificOrigins", builder =>
                 {
-                    builder.WithOrigins("http://localhost:8085").AllowAnyHeader().AllowAnyMethod();
+                    builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyHeader().AllowAnyMethod();
 
                 });
             });

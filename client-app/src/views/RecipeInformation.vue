@@ -6,10 +6,10 @@
           <b-img v-if="previewUrl" :src="previewUrl" fluid></b-img>
           <b-form-file
             v-if="state == 'Edit'"
-            v-model="dataRecipe.imageUrl"
+            v-model="imageFile"
             placeholder="Choose an image for your recipe..."
             accept="image/*"
-            @change="previewFile"
+            @change="changeFile"
           ></b-form-file>
           <b-img v-else :src="recipe.imageUrl" fluid></b-img>
         </b-col>
@@ -155,15 +155,19 @@ export default {
   data() {
     return {
       dataRecipe: { ...this.recipe },
+      imageFile: null,
       previewUrl: '',
       ingredient: { amount: null, unit: '', ingredient: { name: '' } },
       description: '',
     };
   },
   methods: {
-    previewFile(e) {
+    changeFile(e) {
       const file = e.target.files[0];
       this.previewUrl = URL.createObjectURL(file);
+      this.getBase64EncodingOfImage(file).then((base64) => {
+        this.dataRecipe.imageUrl = base64;
+      });
     },
     addIngredient: function() {
       this.dataRecipe.recipeIngredients.push(this.ingredient);
@@ -177,11 +181,22 @@ export default {
       this.$store
         .dispatch('recipe/createRecipe', this.dataRecipe)
         .then((response) => {
+          console.log('RESPONSE:', response);
           this.$router.push({
             name: 'RecipeInformation',
             params: { recipeId: response.recipeId },
           });
         });
+    },
+    getBase64EncodingOfImage(filename) {
+      return new Promise((resolve, reject) => {
+        var reader = new FileReader();
+        reader.readAsDataURL(filename);
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = reject;
+      });
     },
   },
 };

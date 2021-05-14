@@ -49,33 +49,19 @@ export const actions = {
     }
   },
   createRecipe({ commit }, recipe) {
-    getters.getBase64EncodingOfImage(recipe.imageUrl).then((base64) => {
-      recipe.imageUrl = base64;
-
-      console.log('RECIPE: ', recipe);
-      return RecipeWriteService.postRecipe(recipe)
-        .then((response) => {
-          commit('SET_RECIPE', recipe);
-          return response;
-        })
-        .catch((error) => {
-          return error.response;
-        });
-    });
+    return RecipeWriteService.postRecipe(recipe)
+      .then((response) => {
+        commit('SET_RECIPE', recipe);
+        console.log('STORE RESPONSE:', response);
+        return response.data;
+      })
+      .catch((error) => {
+        return error.response;
+      });
   },
 };
 export const getters = {
   getRecipeById: (state) => (id) => {
     return state.recipes.find((recipe) => recipe.recipeId === id);
-  },
-  getBase64EncodingOfImage(filename) {
-    return new Promise((resolve, reject) => {
-      var reader = new FileReader();
-      reader.readAsDataURL(filename);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
   },
 };
