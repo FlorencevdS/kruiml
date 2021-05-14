@@ -91,6 +91,7 @@
             >Rate this recipe:</label
           >
           <b-form-rating
+            v-if="state == 'Information'"
             id="rating-lg-no-border"
             icon-empty="heart"
             icon-half="heart-half"
@@ -123,7 +124,7 @@
                   ><b-form-input
                     size="sm"
                     v-model.number="ingredient.amount"
-                    placeholder="Amount"
+                    placeholder="Total"
                     type="number"
                     step="0.5"
                   ></b-form-input

@@ -30,7 +30,7 @@
             icon-half="heart-half"
             icon-full="heart-fill"
             variant="danger"
-            :value="rating.averageRatingValue"
+            :value="rating ? rating.averageRatingValue : 0"
           ></b-form-rating>
         </div>
       </template>

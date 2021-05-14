@@ -24,14 +24,20 @@ namespace Logic
 
         public RecipeRatingInformation GetAverageRatingByRecipeId(int recipeId)
         {
-            double averageRating = _ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Average(r => r.Value);
-            int totalRatings = _ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Count();
             RecipeRatingInformation result = new RecipeRatingInformation
             {
                 RecipeId = recipeId,
-                AverageRatingValue = averageRating,
-                NumberOfRatings = totalRatings
+                AverageRatingValue = null,
+                NumberOfRatings = 0
             };
+
+            if (_ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Any())
+            {
+                double averageRating = _ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Average(r => r.Value);
+                int totalRatings = _ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Count();
+                result.AverageRatingValue = averageRating;
+                result.NumberOfRatings = totalRatings;
+            }
 
             return result;
         }
