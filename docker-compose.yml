@@ -1,0 +1,65 @@
+version: '3.4'
+
+services:
+    recipe-database:
+         image: postgres:latest
+         restart: always
+         environment:
+             POSTGRES_USER: test
+             POSTGRES_PASSWORD: test
+             POSTGRES_DB: recipedb
+         ports:
+            - 5435:5432
+         volumes:
+           - dataRecipe:/var/lib/postgresql/data
+    rating-database:
+         image: postgres:latest
+         restart: always
+         environment:
+             POSTGRES_USER: test
+             POSTGRES_PASSWORD: test
+             POSTGRES_DB: ratingdb
+         ports:
+            - 5436:5432
+         volumes:
+           - dataRating:/var/lib/postgresql/data
+    recipe-write-service:
+        image: recipewriteservice:latest
+        ports:
+            - 8083:443
+            - 8084:80
+        build:
+            context: recipe-write-service
+            dockerfile: recipe-write-service/Dockerfile
+        depends_on:
+            - "recipe-database"
+        environment:
+            DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
+    recipe-read-service:
+        image: recipereadservice:latest
+        ports:
+            - 8081:443
+            - 8082:80
+        build:
+            context: recipe-read-service
+            dockerfile: recipe-read-service/Dockerfile
+        depends_on:
+            - "recipe-database"
+        environment:
+            DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
+    recipe-rating-service:
+        image: reciperatingservice:latest
+        ports:
+            - 8085:443
+            - 8086:80
+        build:
+            context: recipe-rating-service
+            dockerfile: recipe-rating-service/Dockerfile
+        depends_on:
+            - "rating-database"
+        environment:
+            DB_CONNECTION_STRING: "host=rating-database;port=5432;database=ratingdb;username=test;password=test"
+    
+volumes:
+    dataRecipe:
+    dataRating:
