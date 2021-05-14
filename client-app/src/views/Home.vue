@@ -17,7 +17,10 @@
       </b-row>
       <b-row cols="3">
         <b-col v-for="(recipe, index) in recipes.recipes" :key="index"
-          ><RecipeCard :recipe="recipe" :recipeId="recipe.recipeId"
+          ><RecipeCard
+            :recipe="recipe"
+            :rating="recipeRating(recipe.recipeId)"
+            :recipeId="recipe.recipeId"
         /></b-col>
       </b-row>
     </b-container>
@@ -35,6 +38,14 @@ export default {
     recipes: {
       type: Object,
       required: true,
+    },
+    ratings: Object,
+  },
+  methods: {
+    recipeRating: function(recipeId) {
+      return this.ratings.ratings.find(
+        (rating) => rating.recipeId === recipeId
+      );
     },
   },
 };

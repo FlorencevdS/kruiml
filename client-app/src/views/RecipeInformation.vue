@@ -29,8 +29,20 @@
             >
           </div>
           <small v-if="state == 'Information'"
-            >{{ recipe.likes }} likes | {{ recipe.prepTime }} minutes |
-            {{ recipe.serves }} persons | {{ recipe.kcal }} kcal
+            ><b-form-rating
+              id="rating-inline"
+              inline
+              no-border
+              size="sm"
+              icon-empty="heart"
+              icon-half="heart-half"
+              icon-full="heart-fill"
+              :value="ratingValue.averageRatingValue"
+              disabled
+            ></b-form-rating>
+            {{ ratingValue.numberOfRatings }} ratings |
+            {{ recipe.prepTime }} minutes | {{ recipe.serves }} persons |
+            {{ recipe.kcal }} kcal
           </small>
           <b-container fluid v-else>
             <b-row>
@@ -71,6 +83,25 @@
             placeholder="Enter recipe description"
             v-model="dataRecipe.description"
           ></b-form-textarea>
+
+          <label
+            for="rating-lg-no-border"
+            class="mt-3"
+            v-if="state == 'Information'"
+            >Rate this recipe:</label
+          >
+          <b-form-rating
+            id="rating-lg-no-border"
+            icon-empty="heart"
+            icon-half="heart-half"
+            icon-full="heart-fill"
+            variant="danger"
+            no-border
+            size="lg"
+            style="display: inherit !important; text-align: inherit !important"
+            v-model="rating.value"
+            @change="addRating"
+          ></b-form-rating>
         </b-col>
       </b-row>
       <b-row>
@@ -151,6 +182,7 @@ export default {
   props: {
     recipe: Object,
     state: String,
+    ratingValue: Object,
   },
   data() {
     return {
@@ -159,6 +191,7 @@ export default {
       previewUrl: '',
       ingredient: { amount: null, unit: '', ingredient: { name: '' } },
       description: '',
+      rating: { recipeId: this.recipe.recipeId, userId: 1, value: '' },
     };
   },
   methods: {
@@ -197,6 +230,9 @@ export default {
         };
         reader.onerror = reject;
       });
+    },
+    addRating() {
+      this.$store.dispatch('rating/createRating', this.rating);
     },
   },
 };

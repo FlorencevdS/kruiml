@@ -15,7 +15,10 @@ const routes = [
     beforeEnter(routeTo, routeFrom, next) {
       store.dispatch('recipe/fetchRecipes').then(() => {
         routeTo.params.recipes = store.state.recipe;
-        next();
+        store.dispatch('rating/fetchRatings').then(() => {
+          routeTo.params.ratings = store.state.rating;
+          next();
+        });
       });
     },
   },
@@ -30,6 +33,11 @@ const routes = [
         .then((recipe) => {
           routeTo.params.recipe = recipe;
           routeTo.params.state = 'Information';
+        });
+      store
+        .dispatch('rating/fetchRating', routeTo.params.recipeId)
+        .then((rating) => {
+          routeTo.params.ratingValue = rating;
           next();
         });
     },

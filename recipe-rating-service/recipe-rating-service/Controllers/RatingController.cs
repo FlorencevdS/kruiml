@@ -34,8 +34,8 @@ namespace recipe_rating_service.Controllers
         {
             _logger.LogInformation($"Rating with recipeId: {id} is requested");
 
-            var rating = _ratingLogic.GetAverageRatingByRecipeId(id);
-            return new OkObjectResult(rating);
+            var recipeRatingInformation = _ratingLogic.GetAverageRatingByRecipeId(id);
+            return new OkObjectResult(recipeRatingInformation);
         }
 
         [HttpPost]
