@@ -5,6 +5,7 @@
       style="max-width: 30rem"
       :img-src="recipe.imageUrl"
       :img-alt="recipe.title"
+      img-height="220rem"
       img-top
     >
       <template #header>
