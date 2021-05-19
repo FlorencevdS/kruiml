@@ -52,7 +52,6 @@ export const actions = {
     return RecipeWriteService.postRecipe(recipe)
       .then((response) => {
         commit('SET_RECIPE', recipe);
-        console.log('STORE RESPONSE:', response);
         return response.data;
       })
       .catch((error) => {

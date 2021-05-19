@@ -1,12 +1,11 @@
 ﻿using Repository.Contexts;
 using Repository.Entities;
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 
 namespace Logic
 {
-    public class RatingLogic
+    public class RatingLogic : IRatingLogic
     {
         private readonly RatingContext _ratingContext;
 
@@ -15,20 +14,24 @@ namespace Logic
             _ratingContext = ratingContext;
         }
 
-        public ImmutableList<Rating> GetAllRatings()
+        public ImmutableList<RecipeRatingInformation> GetAllRatings()
         {
-            return _ratingContext.Ratings.ToImmutableList();
+            return _ratingContext.GetAllRatings();
         }
 
-        public object GetAverageRatingByRecipeId(int recipeId)
+        public RecipeRatingInformation GetAverageRatingByRecipeId(int recipeId)
         {
-            return _ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Average(r => r.Value);
+            return _ratingContext.GetAverageRatingByRecipeId(recipeId);
         }
 
         public void InsertRating(Rating rating)
         {
-            _ratingContext.Ratings.Add(rating);
-            _ratingContext.SaveChanges();
+            _ratingContext.InsertRating(rating);
+        }
+
+        public void InsertNewRecipeId(Recipe recipe)
+        {
+            _ratingContext.InsertNewRecipeId(recipe);
         }
     }
 }

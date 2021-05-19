@@ -27,6 +27,8 @@ namespace recipe_rating_service
 
             services.AddScoped<RatingLogic>();
 
+            services.AddHostedService<ReceiveNewRecipeDirect>();
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
