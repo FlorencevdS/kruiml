@@ -33,6 +33,7 @@ services:
             dockerfile: recipe-write-service/Dockerfile
         depends_on:
             - "recipe-database"
+            - "rabbitmq"
         environment:
             DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
     recipe-read-service:
@@ -49,6 +50,7 @@ services:
             DB_CONNECTION_STRING: "host=recipe-database;port=5432;database=recipedb;username=test;password=test"
     recipe-rating-service:
         image: reciperatingservice:latest
+        restart: on-failure
         ports:
             - 8085:443
             - 8086:80
@@ -57,8 +59,14 @@ services:
             dockerfile: recipe-rating-service/Dockerfile
         depends_on:
             - "rating-database"
+            - "rabbitmq"
         environment:
             DB_CONNECTION_STRING: "host=rating-database;port=5432;database=ratingdb;username=test;password=test"
+    rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+            - 5672:5672
+            - 15672:15672
     
 volumes:
     dataRecipe:

@@ -15,6 +15,9 @@ namespace Logic
         {
             _recipeContext.Recipes.Add(recipe);
             _recipeContext.SaveChanges();
+
+            EmitNewRecipeDirect emitNewRecipeDirect = new EmitNewRecipeDirect();
+            emitNewRecipeDirect.EmitNewRecipe(recipe);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Logic
 {
-    public class RatingLogic
+    public class RatingLogic : IRatingLogic
     {
         private readonly RatingContext _ratingContext;
 
@@ -16,36 +16,22 @@ namespace Logic
 
         public ImmutableList<RecipeRatingInformation> GetAllRatings()
         {
-            return _ratingContext.Ratings
-                .GroupBy(r => r.RecipeId)
-                .Select(result =>
-                new RecipeRatingInformation { AverageRatingValue = result.Average(v => v.Value), NumberOfRatings = result.Count(), RecipeId = result.Key }).ToImmutableList();
+            return _ratingContext.GetAllRatings();
         }
 
         public RecipeRatingInformation GetAverageRatingByRecipeId(int recipeId)
         {
-            RecipeRatingInformation result = new RecipeRatingInformation
-            {
-                RecipeId = recipeId,
-                AverageRatingValue = null,
-                NumberOfRatings = 0
-            };
-
-            if (_ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Any())
-            {
-                double averageRating = _ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Average(r => r.Value);
-                int totalRatings = _ratingContext.Ratings.Where(r => r.RecipeId == recipeId).Count();
-                result.AverageRatingValue = averageRating;
-                result.NumberOfRatings = totalRatings;
-            }
-
-            return result;
+            return _ratingContext.GetAverageRatingByRecipeId(recipeId);
         }
 
         public void InsertRating(Rating rating)
         {
-            _ratingContext.Ratings.Add(rating);
-            _ratingContext.SaveChanges();
+            _ratingContext.InsertRating(rating);
+        }
+
+        public void InsertNewRecipeId(Recipe recipe)
+        {
+            _ratingContext.InsertNewRecipeId(recipe);
         }
     }
 }
