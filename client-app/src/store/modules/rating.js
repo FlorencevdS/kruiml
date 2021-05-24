@@ -3,19 +3,8 @@ import RecipeRatingService from '@/services/RecipeRatingService.js';
 export const namespaced = true;
 
 export const state = {
-  ratings: [
-    {
-      recipeId: 9,
-      averageRatingValue: 4,
-      numberOfRatings: 1,
-    },
-    {
-      recipeId: 31,
-      averageRatingValue: 4,
-      numberOfRatings: 1,
-    },
-  ],
-  rating: { recipeId: 9, averageRatingValue: 4, numberOfRatings: 1 },
+  ratings: [],
+  rating: {},
   perPage: 9,
 };
 
