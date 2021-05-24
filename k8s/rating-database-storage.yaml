@@ -1,0 +1,29 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: rating-database-storage
+  labels:
+    type: local
+    app: rating-database-storage
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: '/mnt/ratingData'
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: rating-database-storage
+  labels:
+    app: rating-database-storage
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi

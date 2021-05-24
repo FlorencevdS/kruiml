@@ -1,0 +1,29 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: recipe-database-storage
+  labels:
+    type: local
+    app: recipe-database-storage
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: '/mnt/data'
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: recipe-database-storage
+  labels:
+    app: recipe-database-storage
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi

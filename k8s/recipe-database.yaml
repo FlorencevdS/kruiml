@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recipe-database-deployment
+  labels:
+    app: recipe-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recipe-database
+  template:
+    metadata:
+      labels:
+        app: recipe-database
+    spec:
+      containers:
+        - name: recipe-database
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-database-secret
+                  key: dbname
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-database-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-database-secret
+                  key: password
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: recipedb
+      volumes:
+        - name: recipedb
+          persistentVolumeClaim:
+            claimName: recipe-database-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recipe-database
+spec:
+  selector:
+    app: recipe-database
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

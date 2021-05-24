@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: `https://localhost:8083`,
+  baseURL: `http://localhost:80`,
   withCredentials: false, // This is the default
   headers: {
     Accept: 'application/json',
@@ -12,6 +12,6 @@ const apiClient = axios.create({
 
 export default {
   postRecipe(recipe) {
-    return apiClient.post('/recipe', recipe);
+    return apiClient.post('/addRecipe', recipe);
   },
 };

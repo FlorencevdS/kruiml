@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rating-database-deployment
+  labels:
+    app: rating-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rating-database
+  template:
+    metadata:
+      labels:
+        app: rating-database
+    spec:
+      containers:
+        - name: rating-database
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: rating-database-secret
+                  key: dbname
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rating-database-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rating-database-secret
+                  key: password
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: ratingdb
+      volumes:
+        - name: ratingdb
+          persistentVolumeClaim:
+            claimName: rating-database-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rating-database
+spec:
+  selector:
+    app: rating-database
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

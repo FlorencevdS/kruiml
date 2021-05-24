@@ -8,12 +8,12 @@ namespace recipe_write_service.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RecipeController : ControllerBase
+    public class addRecipeController : ControllerBase
     {
-        private readonly ILogger<RecipeController> _logger;
+        private readonly ILogger<addRecipeController> _logger;
         private readonly RecipeLogic _recipeLogic;
 
-        public RecipeController(ILogger<RecipeController> logger, RecipeLogic recipeLogic)
+        public addRecipeController(ILogger<addRecipeController> logger, RecipeLogic recipeLogic)
         {
             _logger = logger;
             _recipeLogic = recipeLogic;
