@@ -33,12 +33,12 @@ const routes = [
         .then((recipe) => {
           routeTo.params.recipe = recipe;
           routeTo.params.state = 'Information';
-        });
-      store
-        .dispatch('rating/fetchRating', routeTo.params.recipeId)
-        .then((rating) => {
-          routeTo.params.ratingValue = rating;
-          next();
+          store
+            .dispatch('rating/fetchRating', routeTo.params.recipeId)
+            .then((rating) => {
+              routeTo.params.ratingValue = rating;
+              next();
+            });
         });
     },
   },
