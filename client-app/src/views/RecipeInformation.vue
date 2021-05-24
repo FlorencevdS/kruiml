@@ -212,10 +212,10 @@ export default {
       this.description = '';
     },
     addRecipe: function() {
+      this.previewUrl = '';
       this.$store
         .dispatch('recipe/createRecipe', this.dataRecipe)
         .then((response) => {
-          console.log('RESPONSE:', response);
           this.$router.push({
             name: 'RecipeInformation',
             params: { recipeId: response.recipeId },
