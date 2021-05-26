@@ -27,7 +27,7 @@ services:
         image: recipewriteservice:latest
         ports:
             - 8083:443
-            - 8084:80
+            - 8087:80
         build:
             context: recipe-write-service
             dockerfile: recipe-write-service/Dockerfile
