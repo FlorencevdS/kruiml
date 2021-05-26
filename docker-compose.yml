@@ -59,8 +59,7 @@ services:
             dockerfile: recipe-rating-service/Dockerfile
         depends_on:
             - "rating-database"
-            - "rabbitmq":
-                condition: service_healthy
+            - "rabbitmq"
         environment:
             DB_CONNECTION_STRING: "host=rating-database;port=5432;database=ratingdb;username=test;password=test"
     rabbitmq:
@@ -68,11 +67,6 @@ services:
         ports:
             - 5672:5672
             - 15672:15672
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:15672"]
-            interval: 30s
-            timeout: 10s
-            retries: 5
     
 volumes:
     dataRecipe:
