@@ -39,11 +39,6 @@ jobs:
         run: dotnet test --no-build --verbosity normal
         working-directory: recipe-rating-service
 
-  docker:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Log in to Github Docker Registry
         uses: docker/login-action@v1
         with:
@@ -54,7 +49,7 @@ jobs:
       - name: Build container image
         uses: docker/build-push-action@v2
         with:
-          context: ./recipe-rating-service
+          context: ././recipe-rating-service
           file: ././recipe-rating-service/recipe-rating-service/Dockerfile
           push: true
           tags: docker.pkg.github.com/florencevds/kruiml/reciperatingservice:latest
