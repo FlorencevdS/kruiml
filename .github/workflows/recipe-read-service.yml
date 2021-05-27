@@ -3,8 +3,17 @@ name: recipe-read-service
 on:
   push:
     branches: [develop]
+
+    paths:
+      - recipe-read-service/**
+      - .github/workflows/recipe-read-service.yml
+
   pull_request:
     branches: [develop]
+
+    paths:
+      - recipe-read-service/**
+      - .github/workflows/recipe-read-service.yml
 
 jobs:
   build:
