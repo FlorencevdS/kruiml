@@ -1,0 +1,55 @@
+name: recipe-read-service
+
+on:
+  push:
+    branches: [develop]
+
+    paths:
+      - recipe-read-service/**
+      - .github/workflows/recipe-read-service.yml
+
+  pull_request:
+    branches: [develop]
+
+    paths:
+      - recipe-read-service/**
+      - .github/workflows/recipe-read-service.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: recipe-read-service
+
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: recipe-read-service
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: recipe-read-service
+
+      - name: Log in to Github Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+
+      - name: Build container image
+        uses: docker/build-push-action@v2
+        with:
+          context: ././recipe-read-service
+          file: ././recipe-read-service/recipe-read-service/Dockerfile
+          push: true
+          tags: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
