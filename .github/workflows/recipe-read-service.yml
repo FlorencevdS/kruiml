@@ -39,6 +39,7 @@ jobs:
 
       - name: Build container image
         uses: docker/build-push-action@v2
+        working-directory: recipe-read-service
         with:
           push: true
           tags: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
