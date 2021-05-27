@@ -54,7 +54,7 @@ jobs:
       - name: Build container image
         uses: docker/build-push-action@v2
         with:
-          context: ././recipe-rating-service
+          context: ./recipe-rating-service
           file: ././recipe-rating-service/recipe-rating-service/Dockerfile
           push: true
           tags: docker.pkg.github.com/florencevds/kruiml/reciperatingservice:latest
