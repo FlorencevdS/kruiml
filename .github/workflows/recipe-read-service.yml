@@ -40,7 +40,7 @@ jobs:
       - name: Build container image
         uses: docker/build-push-action@v2
         with:
+          context: ././recipe-read-service
+          file: ././recipe-read-service/recipe-read-service/Dockerfile
           push: true
           tags: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
-          context: recipe-read-service
-          file: ../../recipe-read-service/recipe-read-service/Dockerfile
