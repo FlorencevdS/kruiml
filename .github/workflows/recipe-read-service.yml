@@ -38,8 +38,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
 
       - name: Build container image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2
         with:
           push: true
           tags: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
-          context: ../../recipe-read-service
+          context: recipe-read-service
