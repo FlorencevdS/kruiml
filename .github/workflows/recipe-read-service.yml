@@ -42,4 +42,4 @@ jobs:
         with:
           push: true
           tags: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
-          file: ../../recipe-read-service
+          context: ../../recipe-read-service
