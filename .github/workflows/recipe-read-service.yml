@@ -43,3 +43,4 @@ jobs:
           push: true
           tags: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
           context: recipe-read-service
+          file: recipe-read-service/Dockerfile
