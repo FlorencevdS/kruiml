@@ -26,10 +26,18 @@ jobs:
         run: dotnet build --no-restore
         working-directory: recipe-read-service
 
+  test:
+    runs on: ubuntu-latest
+
+    steps:
       - name: Test
         run: dotnet test --no-build --verbosity normal
         working-directory: recipe-read-service
 
+  docker:
+    runs on: ubuntu-latest
+
+    steps:
       - name: Log in to Github Docker Registry
         uses: docker/login-action@v1
         with:
