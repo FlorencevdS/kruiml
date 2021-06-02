@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: recipe-read-service
-          image: kruimlcontainerregister.azurecr.io/recipereadservice:latest
+          image: kruimlcontainerregister.azurecr.io/recipereadservice
           ports:
             - containerPort: 80
           env:
@@ -30,6 +30,7 @@ metadata:
 spec:
   selector:
     app: recipe-read-service
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80
