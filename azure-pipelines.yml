@@ -69,7 +69,8 @@ stages:
               azureResourceGroup: 'kruimlResourceGroup'
               kubernetesCluster: 'kruimlCluster'
               command: 'apply'
-              arguments: '-f k8s/recipe-read-service.yaml'
+              useConfigurationFile: true
+              configuration: 'k8s/recipe-read-service.yaml'
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
 
