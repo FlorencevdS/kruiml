@@ -53,3 +53,6 @@ jobs:
           file: ././recipe-read-service/recipe-read-service/Dockerfile
           push: true
           tags: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
+
+      - name: Deploy kubernetes
+        run: kubectl apply -f recipe-read-service.yaml
