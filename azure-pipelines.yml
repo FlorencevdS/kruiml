@@ -19,7 +19,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '1de275c2-066a-4241-b863-53525d7d2836'
   imageRepository: 'recipereadservice'
-  containerRegistry: 'kruimlcontainerregister.azurecr.io'
+  containerRegistry: 'kruimlcontainerregister.azurecr.io/recipereadservice:latest'
   dockerfilePath: 'recipe-read-service/recipe-read-service/Dockerfile'
   tag: 'latest'
   imagePullSecret: 'kruimlcontainerregister3c34-auth'
