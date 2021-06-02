@@ -55,4 +55,4 @@ jobs:
           tags: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
 
       - name: Deploy kubernetes
-        run: kubectl apply -f ././recipe-read-service/k8s/recipe-read-service.yaml --kubeconfig="C:\Users\Floor\.kube\config"
+        run: kubectl --kubeconfig="C:\\Users\\Floor\\.kube\\config" apply -f ././recipe-read-service/k8s/recipe-read-service.yaml
