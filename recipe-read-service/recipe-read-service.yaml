@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: recipe-read-service
-          image: kruimlcontainerregister.azurecr.io/recipereadservice:latest
+          image: docker.pkg.github.com/florencevds/kruiml/recipereadservice:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 80
           env:
