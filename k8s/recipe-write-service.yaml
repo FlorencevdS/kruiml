@@ -16,13 +16,14 @@ spec:
     spec:
       containers:
         - name: recipe-write-service
-          image: docker.pkg.github.com/florencevds/kruiml/recipewriteservice:latest
-          imagePullPolicy: Never
+          image: kruimlcontainerregister.azurecr.io/recipewriteservice:latest
           ports:
             - containerPort: 80
           env:
             - name: DB_CONNECTION_STRING
               value: 'host=recipe-database;port=5432;database=recipedb;username=test;password=test'
+      imagePullSecrets:
+        - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
@@ -31,6 +32,7 @@ metadata:
 spec:
   selector:
     app: recipe-write-service
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80

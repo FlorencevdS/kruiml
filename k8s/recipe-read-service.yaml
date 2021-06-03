@@ -32,6 +32,7 @@ metadata:
 spec:
   selector:
     app: recipe-read-service
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80
