@@ -23,7 +23,7 @@ spec:
             - name: DB_CONNECTION_STRING
               value: 'host=recipe-database;port=5432;database=recipedb;username=test;password=test'
       imagePullSecrets:
-        - name: 'kruimlcontainerregister3c34-auth'
+        - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
