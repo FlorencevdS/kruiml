@@ -48,28 +48,13 @@ stages:
         tags: |
           $(tag)
 
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'FlorencevdSkruiml.default'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Azure Resource Manager'
-              azureSubscriptionEndpoint: 'Azure for Students(22fae281-192f-4d7e-a431-690531f59669)'
-              azureResourceGroup: 'kruimlResourceGroup'
-              kubernetesCluster: 'kruimlCluster'
-              command: 'apply'
-              arguments: '-f recipe-read-service/recipe-read-service.yaml'
-              secretType: 'dockerRegistry'
-              containerRegistryType: 'Azure Container Registry'
-
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Azure Resource Manager'
+        azureSubscriptionEndpoint: 'Azure for Students(22fae281-192f-4d7e-a431-690531f59669)'
+        azureResourceGroup: 'kruimlResourceGroup'
+        kubernetesCluster: 'kruimlCluster'
+        command: 'apply'
+        arguments: '-f recipe-read-service/recipe-read-service.yaml'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
