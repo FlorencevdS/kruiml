@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: recipe-read-service
-          image: kruimlcontainerregister.azurecr.io/recipereadservice
+          image: kruimlcontainerregister.azurecr.io/recipereadservice:latest
           ports:
             - containerPort: 80
           env:
