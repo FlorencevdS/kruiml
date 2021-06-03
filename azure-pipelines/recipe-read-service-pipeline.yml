@@ -20,7 +20,7 @@ variables:
   dockerRegistryServiceConnection: '1de275c2-066a-4241-b863-53525d7d2836'
   imageRepository: 'recipereadservice'
   containerRegistry: 'kruimlcontainerregister.azurecr.io/recipereadservice:latest'
-  dockerfilePath: '../recipe-read-service/recipe-read-service/Dockerfile'
+  dockerfilePath: './recipe-read-service/recipe-read-service/Dockerfile'
   tag: 'latest'
   imagePullSecret: 'kruimlcontainerregister3c34-auth'
 
@@ -55,6 +55,6 @@ stages:
         azureResourceGroup: 'kruimlResourceGroup'
         kubernetesCluster: 'kruimlCluster'
         command: 'apply'
-        arguments: '-f ../recipe-read-service/recipe-read-service.yaml'
+        arguments: '-f ./k8s/recipe-read-service.yaml'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
