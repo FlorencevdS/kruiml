@@ -69,8 +69,7 @@ stages:
               azureResourceGroup: 'kruimlResourceGroup'
               kubernetesCluster: 'kruimlCluster'
               command: 'apply'
-              useConfigurationFile: true
-              configuration: '$(Build.SourcesDirectory)/recipe-read-service.yaml'
+              arguments: '-f recipe-read-service.yaml'
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
 
