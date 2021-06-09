@@ -111,7 +111,9 @@
             ><b-col style="padding-top:0 !important"
               ><h4>Ingredients</h4></b-col
             >
-            <b-col style="padding-top:0 !important"
+            <b-col
+              style="padding-top:0 !important"
+              v-if="state == 'Information'"
               ><b-input-group>
                 <template #append>
                   <b-button @click="addPerson">+</b-button>
