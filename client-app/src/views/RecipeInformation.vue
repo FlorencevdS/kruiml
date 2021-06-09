@@ -106,8 +106,27 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col
-          ><h4>Ingredients</h4>
+        <b-col>
+          <b-row
+            ><b-col style="padding-top:0 !important"
+              ><h4>Ingredients</h4></b-col
+            >
+            <b-col style="padding-top:0 !important"
+              ><b-input-group>
+                <template #append>
+                  <b-button @click="addPerson">+</b-button>
+                  <b-button
+                    @click="subtractPerson"
+                    :disabled="dataRecipe.serves == 1"
+                    >-</b-button
+                  >
+                </template>
+                <b-form-input
+                  disabled
+                  :placeholder="dataRecipe.serves + ' persons'"
+                ></b-form-input> </b-input-group
+            ></b-col>
+          </b-row>
           <hr />
           <b-form-group>
             <b-form-checkbox
@@ -188,6 +207,7 @@ export default {
   data() {
     return {
       dataRecipe: { ...this.recipe },
+      originalQuantities: this.recipe.recipeIngredients.map((i) => i.amount),
       imageFile: null,
       previewUrl: '',
       ingredient: { amount: null, unit: '', ingredient: { name: '' } },
@@ -234,6 +254,35 @@ export default {
     },
     addRating() {
       this.$store.dispatch('rating/createRating', this.rating);
+    },
+    addPerson() {
+      this.dataRecipe.serves = this.dataRecipe.serves + 1;
+      this.getNewQuantities();
+    },
+    subtractPerson() {
+      this.dataRecipe.serves = this.dataRecipe.serves - 1;
+      this.getNewQuantities();
+    },
+    getNewQuantities() {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: '*/*' },
+        body: JSON.stringify({
+          OldNumberOfServes: this.recipe.serves,
+          NewNumberOfServes: this.dataRecipe.serves,
+          Quantities: this.originalQuantities.map((q) =>
+            q === null ? (q = 0) : (q = q)
+          ),
+        }),
+      };
+
+      fetch('http://localhost:7071/api/CalculateQuantities', requestOptions)
+        .then((response) => response.json())
+        .then((data) =>
+          this.dataRecipe.recipeIngredients.forEach((i, index) =>
+            data[index] === 0 ? (i.amount = null) : (i.amount = data[index])
+          )
+        );
     },
   },
 };
