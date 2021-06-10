@@ -19,13 +19,27 @@
 
           <b-nav-item-dropdown right>
             <template #button-content>
-              <em>Mr. Chef</em>
+              <em>{{ user.user.name }}</em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click="signOut()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
   </div>
 </template>
+
+<script>
+import { mapState } from 'vuex';
+
+export default {
+  computed: {
+    ...mapState(['user']),
+  },
+  methods: {
+    signOut() {
+      this.user.auth.logout();
+    },
+  },
+};
+</script>

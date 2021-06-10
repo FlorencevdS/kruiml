@@ -1,4 +1,5 @@
 ﻿using Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -18,6 +19,7 @@ namespace recipe_read_service.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
             _logger.LogInformation("Recipes are requested.");
