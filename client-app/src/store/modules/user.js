@@ -15,6 +15,7 @@ export const mutations = {
         name: userInfo.name,
         email: userInfo.email,
         id: userInfo.sub,
+        username: userInfo.preferred_username,
       };
     });
   },

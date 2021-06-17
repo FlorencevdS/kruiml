@@ -33,11 +33,18 @@ export const actions = {
         };
       });
   },
-  fetchRating({ commit, getters, state }, id) {
+  fetchRatingInformation({ commit, getters, state }, id) {
     return RecipeRatingService.getRating(id).then((response) => {
       commit('SET_RATING', response.data);
       return response.data;
     });
+  },
+  fetchPersonalRating({ commit, getters, state }, { recipeId, userId }) {
+    return RecipeRatingService.getPersonalRating(recipeId, userId).then(
+      (response) => {
+        return response.data;
+      }
+    );
   },
   createRating({ commit }, rating) {
     return RecipeRatingService.postRating(rating)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.Entities;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -39,6 +40,11 @@ namespace Repository.Contexts
             }
 
             return result;
+        }
+
+        public Rating GetRatingByRecipeIdAndUserId(int recipeId, string userId)
+        {
+            return Ratings.Where(r => r.RecipeId == recipeId && r.UserId == userId).FirstOrDefault();
         }
 
         public void InsertRating(Rating rating)

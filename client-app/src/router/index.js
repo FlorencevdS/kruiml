@@ -15,11 +15,30 @@ const routes = [
     beforeEnter(routeTo, routeFrom, next) {
       store.dispatch('recipe/fetchRecipes').then(() => {
         routeTo.params.recipes = store.state.recipe;
+        routeTo.params.state = 'Home';
         store.dispatch('rating/fetchRatings').then(() => {
           routeTo.params.ratings = store.state.rating;
           next();
         });
       });
+    },
+  },
+  {
+    path: '/:userName',
+    name: 'Account',
+    component: Home,
+    props: true,
+    beforeEnter(routeTo, routeFrom, next) {
+      store
+        .dispatch('recipe/fetchRecipesByUserId', routeTo.params.UserId)
+        .then(() => {
+          routeTo.params.recipes = store.state.recipe;
+          routeTo.params.state = 'Personal';
+          store.dispatch('rating/fetchRatings').then(() => {
+            routeTo.params.ratings = store.state.rating;
+            next();
+          });
+        });
     },
   },
   {
@@ -34,10 +53,21 @@ const routes = [
           routeTo.params.recipe = recipe;
           routeTo.params.state = 'Information';
           store
-            .dispatch('rating/fetchRating', routeTo.params.recipeId)
+            .dispatch('rating/fetchRatingInformation', routeTo.params.recipeId)
             .then((rating) => {
               routeTo.params.ratingValue = rating;
-              next();
+              store
+                .dispatch('rating/fetchPersonalRating', {
+                  recipeId: routeTo.params.recipeId,
+                  userId: store.state.user.user.id,
+                })
+                .then((rating) => {
+                  rating == ''
+                    ? (routeTo.params.personalRating = null)
+                    : (routeTo.params.personalRating = rating);
+
+                  next();
+                });
             });
         });
     },
@@ -58,6 +88,7 @@ const routes = [
         kcal: null,
         recipeIngredients: [],
         directions: [],
+        UserId: store.state.user.user.id,
       };
       routeTo.params.state = 'Edit';
       next();

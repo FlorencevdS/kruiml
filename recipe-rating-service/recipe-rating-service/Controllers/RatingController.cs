@@ -40,6 +40,15 @@ namespace recipe_rating_service.Controllers
             return new OkObjectResult(recipeRatingInformation);
         }
 
+        [HttpGet("{recipeId}/{userId}")]
+        public IActionResult GetRatingByRecipeIdAndUserId(int recipeId, string userId)
+        {
+            _logger.LogInformation($"Rating with recipeId: {recipeId} and userId: {userId} is requested");
+
+            var recipeRating = _ratingLogic.GetRatingByRecipeIdAndUserId(recipeId, userId);
+            return new OkObjectResult(recipeRating);
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] Rating rating)
         {

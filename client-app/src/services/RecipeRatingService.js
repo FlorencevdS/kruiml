@@ -24,6 +24,9 @@ export default {
   getRating(id) {
     return apiClient.get('/rating/' + id);
   },
+  getPersonalRating(recipeId, userId) {
+    return apiClient.get('/rating/' + recipeId + '/' + userId);
+  },
   postRating(rating) {
     return apiClient.post('/rating', rating);
   },

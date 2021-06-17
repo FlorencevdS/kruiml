@@ -21,6 +21,9 @@ export default {
     // ?_limit=' + perPage + '&_page=' + page
     return apiClient.get('/recipe');
   },
+  getRecipesByUserId(id) {
+    return apiClient.get('/recipe/user/' + id);
+  },
   getRecipe(id) {
     return apiClient.get('/recipe/' + id);
   },

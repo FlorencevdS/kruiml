@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Repository.Contexts;
@@ -32,6 +33,16 @@ namespace Logic
                     .ThenInclude(r => r.Ingredient)
                 .AsSplitQuery()
                 .FirstOrDefault(r => r.RecipeId == id);
+        }
+
+        public object GetRecipesByUserId(string id)
+        {
+            return _recipeContext.Recipes
+                .Include(r => r.Directions)
+                .Include(r => r.RecipeIngredients)
+                    .ThenInclude(r => r.Ingredient)
+                .AsSplitQuery()
+                .Where(r => r.UserId == id);
         }
     }
 }

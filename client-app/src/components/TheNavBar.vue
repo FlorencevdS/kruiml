@@ -21,6 +21,7 @@
             <template #button-content>
               <em>{{ user.user.name }}</em>
             </template>
+            <b-dropdown-item @click="account()">My account</b-dropdown-item>
             <b-dropdown-item @click="signOut()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -37,6 +38,19 @@ export default {
     ...mapState(['user']),
   },
   methods: {
+    account() {
+      this.$store
+        .dispatch('recipe/fetchRecipesByUserId', this.user.user.id)
+        .then((response) => {
+          this.$router.push({
+            name: 'Account',
+            params: {
+              UserId: this.user.user.id,
+              userName: this.user.user.username,
+            },
+          });
+        });
+    },
     signOut() {
       this.user.auth.logout();
     },

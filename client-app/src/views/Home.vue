@@ -1,10 +1,10 @@
 <template>
   <div class="home">
     <b-container>
-      <b-row class="row-avatar">
+      <b-row class="row-avatar" v-if="state == 'Personal'">
         <b-col cols="4">
           <b-avatar size="6rem" :src="recipes.cook.image"></b-avatar>
-          <span class="span-name">{{ recipes.cook.name }}</span>
+          <span class="span-name">{{ cookName }}</span>
         </b-col>
         <b-col>
           <b-button
@@ -40,12 +40,18 @@ export default {
       required: true,
     },
     ratings: Object,
+    state: String,
   },
   methods: {
     recipeRating: function(recipeId) {
       return this.ratings.ratings.find(
         (rating) => rating.recipeId === recipeId
       );
+    },
+  },
+  computed: {
+    cookName() {
+      return this.$store.state.user.user.name;
     },
   },
 };
