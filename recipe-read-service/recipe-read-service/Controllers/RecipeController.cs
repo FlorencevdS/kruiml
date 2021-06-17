@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace recipe_read_service.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class RecipeController : ControllerBase
     {
@@ -19,7 +20,6 @@ namespace recipe_read_service.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Get()
         {
             _logger.LogInformation("Recipes are requested.");

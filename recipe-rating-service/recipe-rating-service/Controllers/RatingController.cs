@@ -1,4 +1,5 @@
 ﻿using Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Repository.Entities;
@@ -7,6 +8,7 @@ using System.Transactions;
 namespace recipe_rating_service.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class RatingController : ControllerBase
     {
