@@ -1,4 +1,5 @@
 using Logic;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,18 @@ namespace recipe_write_service
 
                 });
             });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "http://keycloak:8080/auth/realms/Kruiml";
+                options.RequireHttpsMetadata = false;
+                options.Audience = "account";
+                options.TokenValidationParameters.ValidIssuer = "http://localhost:8087/auth/realms/Kruiml";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +72,8 @@ namespace recipe_write_service
             app.UseRouting();
 
             app.UseCors("MyAllowSpecificOrigins");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

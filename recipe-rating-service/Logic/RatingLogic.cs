@@ -1,5 +1,6 @@
 ﻿using Repository.Contexts;
 using Repository.Entities;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -32,6 +33,11 @@ namespace Logic
         public void InsertNewRecipeId(Recipe recipe)
         {
             _ratingContext.InsertNewRecipeId(recipe);
+        }
+
+        public Rating GetRatingByRecipeIdAndUserId(int recipeId, string userId)
+        {
+            return _ratingContext.GetRatingByRecipeIdAndUserId(recipeId, userId);
         }
     }
 }

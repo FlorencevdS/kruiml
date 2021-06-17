@@ -19,13 +19,41 @@
 
           <b-nav-item-dropdown right>
             <template #button-content>
-              <em>Mr. Chef</em>
+              <em>{{ user.user.name }}</em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click="account()">My account</b-dropdown-item>
+            <b-dropdown-item @click="signOut()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
   </div>
 </template>
+
+<script>
+import { mapState } from 'vuex';
+
+export default {
+  computed: {
+    ...mapState(['user']),
+  },
+  methods: {
+    account() {
+      this.$store
+        .dispatch('recipe/fetchRecipesByUserId', this.user.user.id)
+        .then((response) => {
+          this.$router.push({
+            name: 'Account',
+            params: {
+              UserId: this.user.user.id,
+              userName: this.user.user.username,
+            },
+          });
+        });
+    },
+    signOut() {
+      this.user.auth.logout();
+    },
+  },
+};
+</script>

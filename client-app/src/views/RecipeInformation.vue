@@ -91,7 +91,20 @@
             >Rate this recipe:</label
           >
           <b-form-rating
-            v-if="state == 'Information'"
+            v-if="state == 'Information' && personalRating != null"
+            disabled
+            id="rating-lg-no-border"
+            icon-empty="heart"
+            icon-half="heart-half"
+            icon-full="heart-fill"
+            variant="danger"
+            no-border
+            size="lg"
+            style="display: inherit !important; text-align: inherit !important"
+            v-model="personalRating.value"
+          ></b-form-rating>
+          <b-form-rating
+            v-if="state == 'Information' && personalRating == null"
             id="rating-lg-no-border"
             icon-empty="heart"
             icon-half="heart-half"
@@ -205,6 +218,7 @@ export default {
     recipe: Object,
     state: String,
     ratingValue: Object,
+    personalRating: Object,
   },
   data() {
     return {
@@ -214,7 +228,11 @@ export default {
       previewUrl: '',
       ingredient: { amount: null, unit: '', ingredient: { name: '' } },
       description: '',
-      rating: { recipeId: this.recipe.recipeId, userId: 1, value: '' },
+      rating: {
+        recipeId: this.recipe.recipeId,
+        userId: this.$store.state.user.user.id,
+        value: '',
+      },
     };
   },
   methods: {
@@ -301,5 +319,9 @@ p {
 
 .no-padding {
   padding: 0 0 1rem 0 !important;
+}
+
+output#rating-lg-no-border {
+  background-color: transparent;
 }
 </style>

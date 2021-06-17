@@ -13,6 +13,7 @@ namespace Repository.Entities
         public int PrepTime { get; set; }
         public int Serves { get; set; }
         public int Kcal { get; set; }
+        public string UserId { get; set; }
         public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
         public ICollection<Direction> Directions { get; set; }
     }

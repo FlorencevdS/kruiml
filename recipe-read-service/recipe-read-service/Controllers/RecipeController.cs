@@ -1,10 +1,12 @@
 ﻿using Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace recipe_read_service.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class RecipeController : ControllerBase
     {
@@ -18,7 +20,7 @@ namespace recipe_read_service.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetAllRecipes()
         {
             _logger.LogInformation("Recipes are requested.");
 
@@ -26,13 +28,22 @@ namespace recipe_read_service.Controllers
             return new OkObjectResult(recipes);
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id)
+        [HttpGet("{id}", Name = "GetByRecipeId")]
+        public IActionResult GetRecipeByRecipeId(int id)
         {
             _logger.LogInformation($"Recipe with id: {id} is requested");
 
             var recipe = _recipeLogic.GetRecipeByID(id);
             return new OkObjectResult(recipe);
+        }
+
+        [HttpGet("user/{id}", Name = "GetByUserId")]
+        public IActionResult GetRecipesByUserId(string id)
+        {
+            _logger.LogInformation($"Recipes with userId: {id} are requested");
+
+            var recipes = _recipeLogic.GetRecipesByUserId(id);
+            return new OkObjectResult(recipes);
         }
     }
 }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../store';
 
 const apiClient = axios.create({
   baseURL: `https://localhost:8085`,
@@ -10,6 +11,11 @@ const apiClient = axios.create({
   timeout: 10000,
 });
 
+apiClient.interceptors.request.use((config) => {
+  config.headers = { Authorization: 'Bearer ' + store.state.user.token };
+  return config;
+});
+
 export default {
   getRatings(perPage, page) {
     // ?_limit=' + perPage + '&_page=' + page
@@ -17,6 +23,9 @@ export default {
   },
   getRating(id) {
     return apiClient.get('/rating/' + id);
+  },
+  getPersonalRating(recipeId, userId) {
+    return apiClient.get('/rating/' + recipeId + '/' + userId);
   },
   postRating(rating) {
     return apiClient.post('/rating', rating);

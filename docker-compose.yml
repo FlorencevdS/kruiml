@@ -67,7 +67,34 @@ services:
         ports:
             - 5672:5672
             - 15672:15672
-    
+    keycloak-database:
+        image: postgres:latest
+        restart: always
+        environment:
+            POSTGRES_USER: test
+            POSTGRES_PASSWORD: test
+            POSTGRES_DB: keycloak
+        ports:
+            - 5437:5432
+        volumes:
+            - dataKeycloak:/var/lib/postgresql/data
+    keycloak:
+        image: quay.io/keycloak/keycloak:latest
+        environment:
+            DB_VENDOR: POSTGRES
+            DB_ADDR: keycloak-database
+            DB_DATABASE: keycloak
+            DB_USER: test
+            DB_SCHEMA: public
+            DB_PASSWORD: test
+            KEYCLOAK_USER: admin
+            KEYCLOAK_PASSWORD: admin
+        ports:
+            - 8087:8080
+        depends_on: 
+            - keycloak-database
+        
 volumes:
     dataRecipe:
     dataRating:
+    dataKeycloak:

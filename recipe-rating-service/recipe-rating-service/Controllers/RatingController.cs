@@ -1,4 +1,5 @@
 ﻿using Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Repository.Entities;
@@ -7,6 +8,7 @@ using System.Transactions;
 namespace recipe_rating_service.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class RatingController : ControllerBase
     {
@@ -36,6 +38,15 @@ namespace recipe_rating_service.Controllers
 
             var recipeRatingInformation = _ratingLogic.GetAverageRatingByRecipeId(id);
             return new OkObjectResult(recipeRatingInformation);
+        }
+
+        [HttpGet("{recipeId}/{userId}")]
+        public IActionResult GetRatingByRecipeIdAndUserId(int recipeId, string userId)
+        {
+            _logger.LogInformation($"Rating with recipeId: {recipeId} and userId: {userId} is requested");
+
+            var recipeRating = _ratingLogic.GetRatingByRecipeIdAndUserId(recipeId, userId);
+            return new OkObjectResult(recipeRating);
         }
 
         [HttpPost]

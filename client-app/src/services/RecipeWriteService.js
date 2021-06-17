@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../store';
 
 const apiClient = axios.create({
   baseURL: `https://localhost:8083`,
@@ -8,6 +9,11 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
   timeout: 10000,
+});
+
+apiClient.interceptors.request.use((config) => {
+  config.headers = { Authorization: 'Bearer ' + store.state.user.token };
+  return config;
 });
 
 export default {
