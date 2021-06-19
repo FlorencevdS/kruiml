@@ -1,5 +1,4 @@
 ﻿using Logic;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Repository.Entities;
@@ -8,14 +7,14 @@ using System.Transactions;
 namespace recipe_write_service.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("[controller]")]
-    public class addRecipeController : ControllerBase
+    public class RecipeController : ControllerBase
     {
-        private readonly ILogger<addRecipeController> _logger;
+        private readonly ILogger<RecipeController> _logger;
         private readonly RecipeLogic _recipeLogic;
 
-        public addRecipeController(ILogger<addRecipeController> logger, RecipeLogic recipeLogic)
+        public RecipeController(ILogger<RecipeController> logger, RecipeLogic recipeLogic)
         {
             _logger = logger;
             _recipeLogic = recipeLogic;
@@ -30,6 +29,20 @@ namespace recipe_write_service.Controllers
             _recipeLogic.InsertRecipe(recipe);
             scope.Complete();
             return CreatedAtAction(nameof(Post), new { id = recipe.RecipeId }, recipe);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteRecipe(int id)
+        {
+            var recipe = _recipeLogic.GetRecipeByID(id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            _recipeLogic.Remove(recipe);
+            return NoContent();
         }
     }
 }

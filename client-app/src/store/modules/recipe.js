@@ -72,6 +72,13 @@ export const actions = {
         return error.response;
       });
   },
+  deleteRecipe({ commit }, recipeId) {
+    return RecipeWriteService.deleteRecipe(recipeId)
+      .then(() => {})
+      .catch((error) => {
+        return error.response;
+      });
+  },
 };
 export const getters = {
   getRecipeById: (state) => (id) => {

@@ -14,7 +14,21 @@
           <b-img v-else :src="recipe.imageUrl" fluid></b-img>
         </b-col>
         <b-col
-          ><h1 v-if="state == 'Information'">{{ recipe.title }}</h1>
+          ><div
+            v-if="state == 'Information'"
+            class="form-inline justify-content-between"
+          >
+            <h1>{{ recipe.title }}</h1>
+            <b-button
+              v-if="this.$store.state.user.user.id == recipe.userId"
+              variant="outline-danger"
+              class="col-sm-3"
+              size="sm"
+              @click="deleteRecipe"
+              >Delete recipe</b-button
+            >
+          </div>
+
           <div v-else class="form-inline justify-content-between">
             <b-form-input
               class="col-sm-8"
@@ -303,6 +317,15 @@ export default {
             data[index] === 0 ? (i.amount = null) : (i.amount = data[index])
           )
         );
+    },
+    deleteRecipe() {
+      this.$store
+        .dispatch('recipe/deleteRecipe', this.recipe.recipeId)
+        .then(() => {
+          this.$router.push({
+            name: 'Home',
+          });
+        });
     },
   },
 };
