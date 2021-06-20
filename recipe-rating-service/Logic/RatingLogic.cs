@@ -50,5 +50,12 @@ namespace Logic
 
             _ratingContext.SaveChanges();
         }
+
+        public void DeleteAccount(string id)
+        {
+            var ratings = _ratingContext.Ratings.Where(r => r.UserId == id);
+            _ratingContext.RemoveRange(ratings);
+            _ratingContext.SaveChanges();
+        }
     }
 }

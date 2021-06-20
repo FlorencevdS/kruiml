@@ -1,4 +1,5 @@
 export const namespaced = true;
+import RecipeWriteService from '@/services/RecipeWriteService.js';
 
 export const state = {
   auth: {},
@@ -36,5 +37,12 @@ export const actions = {
   },
   setRefreshToken({ commit }, refreshToken) {
     commit('SET_REFRESHTOKEN', refreshToken);
+  },
+  deleteAccount({ commit }, id) {
+    return RecipeWriteService.deleteAccount(id)
+      .then(() => {})
+      .catch((error) => {
+        return error.response;
+      });
   },
 };

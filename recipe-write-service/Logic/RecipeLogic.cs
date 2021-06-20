@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.Contexts;
 using Repository.Entities;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,5 +41,20 @@ namespace Logic
             emitDeleteRecipeDirect.EmitDeleteRecipe(recipe);
         }
 
+        public void DeleteAccount(string id)
+        {
+            var recipes = _recipeContext.Recipes.Where(r => r.UserId == id);
+            foreach(Recipe recipe in recipes)
+            {
+                _recipeContext.Remove(recipe);
+
+                EmitDeleteRecipeDirect emitDeleteRecipeDirect = new EmitDeleteRecipeDirect();
+                emitDeleteRecipeDirect.EmitDeleteRecipe(recipe);
+            }
+            _recipeContext.SaveChanges();
+
+            EmitDeleteAccountDirect emitDeleteAccountDirect = new EmitDeleteAccountDirect();
+            emitDeleteAccountDirect.EmitDeleteAccount(id);
+        }
     }
 }

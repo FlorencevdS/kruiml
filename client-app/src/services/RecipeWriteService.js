@@ -23,4 +23,7 @@ export default {
   deleteRecipe(id) {
     return apiClient.delete('/Recipe/' + id);
   },
+  deleteAccount(id) {
+    return apiClient.delete('/Account/' + id);
+  },
 };

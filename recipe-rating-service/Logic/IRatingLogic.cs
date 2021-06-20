@@ -16,5 +16,6 @@ namespace Logic
 
         public void InsertNewRecipeId(Recipe recipe);
         public void DeleteRecipeId(int id);
+        void DeleteAccount(string id);
     }
 }

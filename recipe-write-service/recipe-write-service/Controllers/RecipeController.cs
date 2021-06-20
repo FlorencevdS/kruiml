@@ -44,5 +44,12 @@ namespace recipe_write_service.Controllers
             _recipeLogic.Remove(recipe);
             return NoContent();
         }
+
+        [HttpDelete("/Account/{id}")]
+        public IActionResult DeleteAccount(string id)
+        {
+            _recipeLogic.DeleteAccount(id);
+            return NoContent();
+        }
     }
 }
