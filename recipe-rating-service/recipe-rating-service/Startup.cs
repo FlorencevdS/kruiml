@@ -29,6 +29,8 @@ namespace recipe_rating_service
             services.AddScoped<RatingLogic>();
 
             services.AddHostedService<ReceiveNewRecipeDirect>();
+            services.AddHostedService<ReceiveDeleteRecipeDirect>();
+            services.AddHostedService<ReceiveDeleteAccountDirect>();
 
             services.AddControllers();
 

@@ -18,6 +18,12 @@ apiClient.interceptors.request.use((config) => {
 
 export default {
   postRecipe(recipe) {
-    return apiClient.post('/addRecipe', recipe);
+    return apiClient.post('/Recipe', recipe);
+  },
+  deleteRecipe(id) {
+    return apiClient.delete('/Recipe/' + id);
+  },
+  deleteAccount(id) {
+    return apiClient.delete('/Account/' + id);
   },
 };

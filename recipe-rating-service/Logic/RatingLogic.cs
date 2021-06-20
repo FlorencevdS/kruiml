@@ -39,5 +39,23 @@ namespace Logic
         {
             return _ratingContext.GetRatingByRecipeIdAndUserId(recipeId, userId);
         }
+
+        public void DeleteRecipeId(int id)
+        {
+            var result = _ratingContext.Recipes.OrderBy(r => r.RecipeId).Where(r => r.RecipeId == id);
+
+            IImmutableList<Recipe> recipes = result.Select(r => new Recipe { RecipeId = r.RecipeId }).ToImmutableList();
+
+            _ratingContext.RemoveRange(recipes);
+
+            _ratingContext.SaveChanges();
+        }
+
+        public void DeleteAccount(string id)
+        {
+            var ratings = _ratingContext.Ratings.Where(r => r.UserId == id);
+            _ratingContext.RemoveRange(ratings);
+            _ratingContext.SaveChanges();
+        }
     }
 }
